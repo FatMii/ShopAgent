@@ -1011,15 +1011,15 @@ export async function POST(req: Request) {
 
 ### 阶段二：对话基础功能
 
-- [ ] 2.1 创建 app/layout.tsx（全局布局，侧边栏 + 主内容区）
-- [ ] 2.2 创建 components/layout/Sidebar.tsx（导航菜单：对话、工单、知识库、看板）
-- [ ] 2.3 创建 app/chat/page.tsx（对话页面壳子）
-- [ ] 2.4 创建 components/chat/MessageBubble.tsx（单条消息组件，区分 user/assistant）
-- [ ] 2.5 创建 components/chat/MessageList.tsx（消息列表，自动滚动到底部）
-- [ ] 2.6 创建 components/chat/MessageInput.tsx（输入框 + 发送按钮，支持回车发送）
-- [ ] 2.7 创建 components/chat/ChatWindow.tsx（组装 MessageList + MessageInput）
-- [ ] 2.8 创建 app/api/chat/route.ts（基础对话接口，接入 OpenAI，返回流式响应）
-- [ ] 2.9 前端对接 /api/chat，实现流式输出打字机效果
+- [x] 2.1 创建 app/layout.tsx（全局布局，侧边栏 + 主内容区）
+- [x] 2.2 创建 components/layout/Sidebar.tsx（导航菜单：对话、工单、知识库、看板）
+- [x] 2.3 创建 app/chat/page.tsx（对话页面壳子）
+- [x] 2.4 创建 components/chat/MessageBubble.tsx（单条消息组件，区分 user/assistant，支持 Markdown 渲染）
+- [x] 2.5 创建 components/chat/MessageList.tsx（消息列表，自动滚动到底部）
+- [x] 2.6 创建 components/chat/MessageInput.tsx（输入框 + 发送按钮，支持回车发送）
+- [x] 2.7 创建 components/chat/ChatWindow.tsx（组装 MessageList + MessageInput）
+- [x] 2.8 创建 app/api/chat/route.ts（基础对话接口，接入 mimo API，流式响应）
+- [x] 2.9 前端对接 /api/chat，实现流式输出打字机效果
 - [ ] 2.10 实现会话管理：新建会话、会话列表、切换会话
 - [ ] 2.11 创建 components/chat/SessionSidebar.tsx（会话列表侧边栏）
 - [ ] 2.12 创建 app/api/sessions/route.ts（会话 CRUD 接口）
