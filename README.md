@@ -1003,11 +1003,11 @@ export async function POST(req: Request) {
 - [x] 1.3 Shadcn/UI 安装初始化
 - [x] 1.4 Prisma schema 定义（User、Session、Message、Order、Ticket、Feedback、KnowledgeDoc）
 - [x] 1.5 .gitignore 配置
-- [ ] 1.6 安装剩余依赖：ai、@ai-sdk/openai、langchain、@langchain/openai、recharts、lucide-react
-- [ ] 1.7 创建 lib/db/prisma.ts（Prisma 客户端单例）
-- [ ] 1.8 配置 .env.local（DATABASE_URL、OPENAI_API_KEY）
-- [ ] 1.9 启动 PostgreSQL（Docker）并运行 prisma db push
-- [ ] 1.10 编写 prisma/seed.ts（测试用户 + 测试订单）并执行
+- [x] 1.6 安装剩余依赖：ai、@ai-sdk/openai、langchain、@langchain/openai、recharts、lucide-react
+- [x] 1.7 创建 lib/db/prisma.ts（Prisma 客户端单例）
+- [x] 1.8 配置 .env.local（DATABASE_URL、OPENAI_API_KEY）
+- [x] 1.9 启动 PostgreSQL（Docker）并运行 prisma db push
+- [x] 1.10 编写 prisma/seed.ts（测试用户 + 测试订单）并执行
 
 ### 阶段二：对话基础功能
 
@@ -1101,16 +1101,52 @@ export async function POST(req: Request) {
 
 ---
 
-## 九、环境变量
+## 九、本地开发环境启动
+
+> ⚠️ 换电脑或重装系统后，按以下步骤恢复开发环境。
+
+### 前置条件
+
+- Node.js 18+
+- Docker Desktop
+
+### 启动步骤
+
+```bash
+# 1. 启动 PostgreSQL（Docker 容器）
+#    首次运行会自动拉取镜像，之后 docker start 即可
+docker start shopagent-db 2>/dev/null || docker run -d --name shopagent-db -e POSTGRES_PASSWORD=123456 -e POSTGRES_DB=shopagent -p 5432:5432 pgvector/pgvector:pg16
+
+# 2. 安装依赖
+npm install
+
+# 3. 同步数据库表结构
+npx prisma db push
+
+# 4. 写入测试数据
+npm run db:seed
+
+# 5. 启动开发服务器
+npm run dev
+```
+
+### 停止开发时
+
+```bash
+# 停止数据库容器（数据不会丢失）
+docker stop shopagent-db
+```
+
+### 环境变量
 
 ```env
 # .env.local
 
-# OpenAI
+# OpenAI（替换为你自己的 key）
 OPENAI_API_KEY=sk-xxx
 
-# PostgreSQL
-DATABASE_URL=postgresql://user:password@localhost:5432/ai_cs_agent
+# PostgreSQL（和 Docker 启动参数一致）
+DATABASE_URL=postgresql://postgres:123456@localhost:5432/shopagent
 ```
 
 ---
