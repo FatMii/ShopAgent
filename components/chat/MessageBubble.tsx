@@ -28,13 +28,14 @@ export function MessageBubble({ role, content, messageId, sessionId }: MessageBu
           <Bot className="w-4 h-4 text-gray-600" />
         )}
       </div>
-      <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}>
+      <div className={`flex flex-col gap-1 ${isUser ? 'items-end' : 'items-start'}`}>
         <div
-          className={`max-w-[70%] min-w-0 w-fit px-4 py-2 rounded-lg text-sm leading-relaxed ${
+          className={`inline-block px-4 py-2 rounded-lg text-sm leading-relaxed ${
             isUser
               ? 'bg-blue-500 text-white'
               : 'bg-gray-100 text-gray-800'
           }`}
+          style={{ maxWidth: isUser ? '70%' : '85%' }}
         >
           {isUser ? (
             content
