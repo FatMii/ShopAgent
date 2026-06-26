@@ -1027,15 +1027,15 @@ export async function POST(req: Request) {
 
 ### 阶段三：Agent + Tool Calling
 
-- [ ] 3.1 创建 lib/agent/tools.ts，定义 queryOrder Tool（查订单详情）
-- [ ] 3.2 定义 queryUserOrders Tool（查用户全部订单）
-- [ ] 3.3 定义 createRefund Tool（创建退货工单，含订单校验）
-- [ ] 3.4 定义 queryLogistics Tool（查物流状态，mock 数据）
-- [ ] 3.5 定义 searchKnowledge Tool（占位，后续接 RAG）
-- [ ] 3.6 创建 lib/agent/prompt.ts（System Prompt，含工作原则）
-- [ ] 3.7 创建 lib/agent/memory.ts（getMemory：读最近 N 条消息）
-- [ ] 3.8 创建 lib/agent/index.ts（runAgent：组装 prompt + memory + tools，调用 streamText）
-- [ ] 3.9 改造 app/api/chat/route.ts，调用 runAgent 替代直接调 OpenAI
+- [x] 3.1 创建 lib/agent/tools.ts，定义 queryOrder Tool（查订单详情）
+- [x] 3.2 定义 queryUserOrders Tool（查用户全部订单）
+- [x] 3.3 定义 createRefund Tool（创建退货工单，含订单校验）
+- [x] 3.4 定义 queryLogistics Tool（查物流状态，mock 数据）
+- [x] 3.5 定义 searchKnowledge Tool（占位，后续接 RAG）
+- [x] 3.6 创建 lib/agent/prompt.ts（System Prompt，含工作原则）
+- [x] 3.7 创建 lib/agent/memory.ts（getMemory：读最近 N 条消息）
+- [x] 3.8 创建 lib/agent/index.ts（runAgent：直接调 mimo API，手动处理 Tool 调用循环）
+- [x] 3.9 改造 app/api/chat/route.ts，调用 runAgent 替代直接调 mimo
 - [ ] 3.10 创建 components/chat/ToolCallCard.tsx（展示 Tool 名称、参数、返回结果、耗时）
 - [ ] 3.11 MessageBubble 区分消息类型：纯文本 / Tool 调用 / 混合
 - [ ] 3.12 创建 components/chat/OrderCard.tsx（订单信息卡片，展示订单号、商品、金额、状态）
