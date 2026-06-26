@@ -140,14 +140,14 @@ export function ChatWindow() {
   }
 
   return (
-    <div className="flex-1 flex">
+    <div className="flex-1 flex min-h-0">
       <SessionSidebar
         sessions={sessions}
         activeSessionId={activeSessionId}
         onSelect={handleSelectSession}
         onNew={handleNewSession}
       />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         <MessageList messages={messages} isLoading={isLoading} />
         <MessageInput onSend={handleSend} disabled={isLoading} />
       </div>
