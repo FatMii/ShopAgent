@@ -1061,20 +1061,20 @@ export async function POST(req: Request) {
 
 ### 阶段五：工单管理
 
-- [ ] 5.1 创建 app/admin/tickets/page.tsx（工单管理页面壳子）
-- [ ] 5.2 创建 components/admin/TicketTable.tsx（工单表格，列：工单号、订单号、类型、原因、状态）
-- [ ] 5.3 创建 app/api/tickets/route.ts（工单列表接口，支持按状态/类型筛选）
-- [ ] 5.4 创建 components/admin/TicketDetail.tsx（工单详情抽屉，展示关联订单信息）
-- [ ] 5.5 工单状态流转：待处理 → 处理中 → 已解决 / 已关闭
-- [ ] 5.6 创建 app/api/tickets/[id]/route.ts（单个工单接口：查详情、改状态）
+- [x] 5.1 创建 app/admin/tickets/page.tsx（工单管理页面壳子）
+- [x] 5.2 创建 components/admin/TicketTable.tsx（工单表格，列：工单号、订单号、类型、原因、状态）
+- [x] 5.3 创建 app/api/tickets/route.ts（工单列表接口，支持按状态/类型筛选）
+- [x] 5.4 创建 components/admin/TicketDetail.tsx（工单详情抽屉，展示关联订单信息）
+- [x] 5.5 工单状态流转：待处理 → 处理中 → 已解决 / 已关闭
+- [x] 5.6 创建 app/api/tickets/[id]/route.ts（单个工单接口：查详情、改状态）
 
 ### 阶段六：数据看板
 
-- [ ] 6.1 创建 app/admin/dashboard/page.tsx（看板页面壳子）
-- [ ] 6.2 创建 app/api/dashboard/route.ts（统计数据接口：对话数、工单数、解决率）
-- [ ] 6.3 创建 components/admin/StatsCards.tsx（统计卡片：今日对话、待处理工单、解决率、平均响应）
-- [ ] 6.4 对话量趋势折线图（recharts，最近 7 天）
-- [ ] 6.5 工单类型分布饼图（recharts）
+- [x] 6.1 创建 app/admin/dashboard/page.tsx（看板页面壳子）
+- [x] 6.2 创建 app/api/dashboard/route.ts（统计数据接口：对话数、工单数、解决率）
+- [x] 6.3 创建 components/admin/StatsCards.tsx（统计卡片：今日对话、待处理工单、解决率、平均响应）
+- [x] 6.4 对话量趋势折线图（recharts，最近 7 天）
+- [x] 6.5 工单类型分布饼图（recharts）
 
 ### 阶段七：Memory 增强
 
