@@ -1042,6 +1042,19 @@ export async function POST(req: Request) {
 - [x] 3.13 Agent 回复中自动识别并渲染 OrderCard
 - [x] 3.14 联调测试：完整对话流程（用户提问 → Agent 调 Tool → 返回结果 → 渲染）
 
+### 阶段三-B：用户认证（新增）
+
+- [x] 3B.1 创建 lib/auth/index.ts（JWT 工具函数：生成/验证 token）
+- [x] 3B.2 创建 app/api/auth/register/route.ts（注册接口）
+- [x] 3B.3 创建 app/api/auth/login/route.ts（登录接口）
+- [x] 3B.4 创建 app/api/auth/logout/route.ts（登出接口）
+- [x] 3B.5 创建 app/api/auth/me/route.ts（获取当前用户信息）
+- [x] 3B.6 创建 app/(auth)/login/page.tsx（登录页面）
+- [x] 3B.7 创建 app/(auth)/register/page.tsx（注册页面）
+- [x] 3B.8 创建 components/layout/AuthLayout.tsx（认证页面布局）
+- [x] 3B.9 更新 Sidebar.tsx（显示用户信息、登出按钮）
+- [x] 3B.10 更新 app/layout.tsx（认证状态检查、路由保护）
+
 ### 阶段四：RAG 知识库
 
 - [ ] 4.1 PostgreSQL 启用 pgvector 扩展（Docker 镜像换 pgvector 版）
@@ -1084,11 +1097,11 @@ export async function POST(req: Request) {
 
 ### 阶段八：UI 打磨 + 错误处理
 
-- [ ] 8.1 全局 loading 状态：消息发送中、Agent 思考中
-- [ ] 8.2 错误处理：API 报错时前端展示友好提示
-- [ ] 8.3 空状态处理：无会话、无工单、无知识库文档时的占位 UI
-- [ ] 8.4 响应式适配：移动端侧边栏折叠
-- [ ] 8.5 消息满意度反馈（thumbs up/down）
+- [x] 8.1 全局 loading 状态：消息发送中、Agent 思考中
+- [x] 8.2 错误处理：API 报错时前端展示友好提示
+- [x] 8.3 空状态处理：无会话、无工单、无知识库文档时的占位 UI
+- [x] 8.4 响应式适配：移动端侧边栏折叠
+- [x] 8.5 消息满意度反馈（thumbs up/down）
 
 ### 阶段九：部署上线
 

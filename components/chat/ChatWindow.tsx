@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { MessageList, Message } from './MessageList'
 import { MessageInput } from './MessageInput'
 import { SessionSidebar } from './SessionSidebar'
+import { SendingIndicator } from '@/components/ui/loading-dots'
+import { toast } from '@/components/ui/toast'
 
 interface Session {
   id: string
@@ -111,12 +113,17 @@ export function ChatWindow() {
       loadSessions()
     } catch (error) {
       console.error('Chat error:', error)
+      const errorMessage = error instanceof Error ? error.message : '未知错误'
+      toast({
+        type: 'error',
+        message: `消息发送失败：${errorMessage}`,
+      })
       setMessages((prev) => [
         ...prev,
         {
           id: (Date.now() + 2).toString(),
           role: 'assistant',
-          content: `抱歉，出了点问题：${error instanceof Error ? error.message : '未知错误'}`,
+          content: `抱歉，出了点问题：${errorMessage}。请稍后重试，或联系人工客服。`,
         },
       ])
     } finally {
@@ -133,7 +140,8 @@ export function ChatWindow() {
         onNew={handleNewSession}
       />
       <div className="flex-1 flex flex-col min-h-0">
-        <MessageList messages={messages} isLoading={isLoading} />
+        <MessageList messages={messages} isLoading={isLoading} sessionId={activeSessionId || undefined} />
+        {isLoading && <SendingIndicator />}
         <MessageInput onSend={handleSend} disabled={isLoading} />
       </div>
     </div>

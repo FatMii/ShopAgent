@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { ToasterProvider } from '@/components/providers/toaster-provider'
 import './globals.css'
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default function RootLayout({
     >
       <body className="h-full overflow-hidden">
         {children}
+        <ToasterProvider />
       </body>
     </html>
   )

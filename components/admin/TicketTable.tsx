@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { TicketDetail } from './TicketDetail'
+import { FileText, Filter } from 'lucide-react'
 
 interface Ticket {
   id: string
@@ -150,7 +151,15 @@ export function TicketTable() {
           </tbody>
         </table>
         {tickets.length === 0 && (
-          <div className="text-center py-8 text-gray-400">暂无工单</div>
+          <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+            <FileText className="w-12 h-12 mb-4 opacity-50" />
+            <p className="font-medium mb-2">暂无工单</p>
+            <p className="text-sm">
+              {statusFilter !== 'all' || typeFilter !== 'all'
+                ? '没有符合筛选条件的工单'
+                : '当用户发起退货退款时，会自动创建工单'}
+            </p>
+          </div>
         )}
       </div>
 

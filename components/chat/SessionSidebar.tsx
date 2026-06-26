@@ -34,7 +34,11 @@ export function SessionSidebar({
       </div>
       <div className="flex-1 overflow-y-auto p-2">
         {sessions.length === 0 ? (
-          <p className="text-xs text-gray-400 text-center mt-4">暂无对话</p>
+          <div className="flex flex-col items-center justify-center h-full text-gray-400 px-4">
+            <MessageSquare className="w-10 h-10 mb-3 opacity-50" />
+            <p className="text-sm font-medium mb-1">暂无对话</p>
+            <p className="text-xs text-center">点击上方按钮开始新对话</p>
+          </div>
         ) : (
           sessions.map((session) => (
             <button

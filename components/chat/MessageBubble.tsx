@@ -3,13 +3,16 @@
 import { Bot, User } from 'lucide-react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { FeedbackButtons } from './FeedbackButtons'
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
   content: string
+  messageId?: string
+  sessionId?: string
 }
 
-export function MessageBubble({ role, content }: MessageBubbleProps) {
+export function MessageBubble({ role, content, messageId, sessionId }: MessageBubbleProps) {
   const isUser = role === 'user'
 
   return (
@@ -25,49 +28,55 @@ export function MessageBubble({ role, content }: MessageBubbleProps) {
           <Bot className="w-4 h-4 text-gray-600" />
         )}
       </div>
-      <div
-        className={`max-w-[70%] px-4 py-2 rounded-lg text-sm leading-relaxed ${
-          isUser
-            ? 'bg-blue-500 text-white'
-            : 'bg-gray-100 text-gray-800'
-        }`}
-      >
-        {isUser ? (
-          content
-        ) : (
-          <Markdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-              ul: ({ children }) => <ul className="list-disc pl-4 mb-2">{children}</ul>,
-              ol: ({ children }) => <ol className="list-decimal pl-4 mb-2">{children}</ol>,
-              li: ({ children }) => <li className="mb-1">{children}</li>,
-              code: ({ children }) => (
-                <code className="bg-gray-200 px-1 py-0.5 rounded text-xs">{children}</code>
-              ),
-              pre: ({ children }) => (
-                <pre className="bg-gray-200 p-2 rounded mb-2 overflow-x-auto text-xs">{children}</pre>
-              ),
-              table: ({ children }) => (
-                <table className="border-collapse mb-2 text-xs w-full">{children}</table>
-              ),
-              thead: ({ children }) => (
-                <thead className="bg-gray-200">{children}</thead>
-              ),
-              tbody: ({ children }) => <tbody>{children}</tbody>,
-              tr: ({ children }) => (
-                <tr className="border-b border-gray-300">{children}</tr>
-              ),
-              th: ({ children }) => (
-                <th className="px-2 py-1 text-left font-medium">{children}</th>
-              ),
-              td: ({ children }) => (
-                <td className="px-2 py-1">{children}</td>
-              ),
-            }}
-          >
-            {content}
-          </Markdown>
+      <div>
+        <div
+          className={`max-w-[70%] px-4 py-2 rounded-lg text-sm leading-relaxed ${
+            isUser
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-100 text-gray-800'
+          }`}
+        >
+          {isUser ? (
+            content
+          ) : (
+            <Markdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                ul: ({ children }) => <ul className="list-disc pl-4 mb-2">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal pl-4 mb-2">{children}</ol>,
+                li: ({ children }) => <li className="mb-1">{children}</li>,
+                code: ({ children }) => (
+                  <code className="bg-gray-200 px-1 py-0.5 rounded text-xs">{children}</code>
+                ),
+                pre: ({ children }) => (
+                  <pre className="bg-gray-200 p-2 rounded mb-2 overflow-x-auto text-xs">{children}</pre>
+                ),
+                table: ({ children }) => (
+                  <table className="border-collapse mb-2 text-xs w-full">{children}</table>
+                ),
+                thead: ({ children }) => (
+                  <thead className="bg-gray-200">{children}</thead>
+                ),
+                tbody: ({ children }) => <tbody>{children}</tbody>,
+                tr: ({ children }) => (
+                  <tr className="border-b border-gray-300">{children}</tr>
+                ),
+                th: ({ children }) => (
+                  <th className="px-2 py-1 text-left font-medium">{children}</th>
+                ),
+                td: ({ children }) => (
+                  <td className="px-2 py-1">{children}</td>
+                ),
+              }}
+            >
+              {content}
+            </Markdown>
+          )}
+        </div>
+        {/* 满意度反馈按钮（仅 assistant 消息显示） */}
+        {!isUser && messageId && sessionId && (
+          <FeedbackButtons messageId={messageId} sessionId={sessionId} />
         )}
       </div>
     </div>
