@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/db/prisma'
 import { getMemory, getUserProfile } from './memory'
-import { SYSTEM_PROMPT } from './prompt'
+import { getSystemPrompt } from './prompt'
 
 const MIMO_BASE_URL = process.env.OPENAI_BASE_URL!
 const MIMO_API_KEY = process.env.OPENAI_API_KEY!
@@ -153,11 +153,11 @@ export interface AgentResult {
   toolCalls: ToolCallInfo[]
 }
 
-export async function runAgent(sessionId: string, userMessage: string): Promise<AgentResult> {
+export async function runAgent(sessionId: string, userMessage: string, userId: string, userName: string): Promise<AgentResult> {
   const history = await getMemory(sessionId)
-  const profile = await getUserProfile('user_001')
+  const profile = await getUserProfile(userId)
   const profileText = `用户有 ${profile.totalOrders} 个订单，最近购买：${profile.recentProducts.join('、')}。${profile.hasRefundHistory ? '有过退款记录。' : ''}${profile.ticketCount > 0 ? `有 ${profile.ticketCount} 个工单。` : ''}`
-  const systemPrompt = SYSTEM_PROMPT.replace('{{user_history}}', profileText)
+  const systemPrompt = getSystemPrompt(userName, userId, profileText)
 
   const messages: Array<{ role: string; content: string | unknown[]; tool_call_id?: string }> = [
     { role: 'system', content: systemPrompt },
