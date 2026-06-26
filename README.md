@@ -1020,10 +1020,10 @@ export async function POST(req: Request) {
 - [x] 2.7 创建 components/chat/ChatWindow.tsx（组装 MessageList + MessageInput）
 - [x] 2.8 创建 app/api/chat/route.ts（基础对话接口，接入 mimo API，流式响应）
 - [x] 2.9 前端对接 /api/chat，实现流式输出打字机效果
-- [ ] 2.10 实现会话管理：新建会话、会话列表、切换会话
-- [ ] 2.11 创建 components/chat/SessionSidebar.tsx（会话列表侧边栏）
-- [ ] 2.12 创建 app/api/sessions/route.ts（会话 CRUD 接口）
-- [ ] 2.13 消息持久化：用户消息和 Agent 回复存入 Message 表
+- [x] 2.10 实现会话管理：新建会话、会话列表、切换会话
+- [x] 2.11 创建 components/chat/SessionSidebar.tsx（会话列表侧边栏）
+- [x] 2.12 创建 app/api/sessions/route.ts（会话 CRUD 接口）
+- [x] 2.13 消息持久化：用户消息和 Agent 回复存入 Message 表
 
 ### 阶段三：Agent + Tool Calling
 
