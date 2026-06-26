@@ -2,6 +2,7 @@
 
 import { Bot, User } from 'lucide-react'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
@@ -35,6 +36,7 @@ export function MessageBubble({ role, content }: MessageBubbleProps) {
           content
         ) : (
           <Markdown
+            remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
               ul: ({ children }) => <ul className="list-disc pl-4 mb-2">{children}</ul>,
@@ -45,6 +47,22 @@ export function MessageBubble({ role, content }: MessageBubbleProps) {
               ),
               pre: ({ children }) => (
                 <pre className="bg-gray-200 p-2 rounded mb-2 overflow-x-auto text-xs">{children}</pre>
+              ),
+              table: ({ children }) => (
+                <table className="border-collapse mb-2 text-xs w-full">{children}</table>
+              ),
+              thead: ({ children }) => (
+                <thead className="bg-gray-200">{children}</thead>
+              ),
+              tbody: ({ children }) => <tbody>{children}</tbody>,
+              tr: ({ children }) => (
+                <tr className="border-b border-gray-300">{children}</tr>
+              ),
+              th: ({ children }) => (
+                <th className="px-2 py-1 text-left font-medium">{children}</th>
+              ),
+              td: ({ children }) => (
+                <td className="px-2 py-1">{children}</td>
               ),
             }}
           >

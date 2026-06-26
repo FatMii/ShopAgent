@@ -1036,11 +1036,11 @@ export async function POST(req: Request) {
 - [x] 3.7 创建 lib/agent/memory.ts（getMemory：读最近 N 条消息）
 - [x] 3.8 创建 lib/agent/index.ts（runAgent：直接调 mimo API，手动处理 Tool 调用循环）
 - [x] 3.9 改造 app/api/chat/route.ts，调用 runAgent 替代直接调 mimo
-- [ ] 3.10 创建 components/chat/ToolCallCard.tsx（展示 Tool 名称、参数、返回结果、耗时）
-- [ ] 3.11 MessageBubble 区分消息类型：纯文本 / Tool 调用 / 混合
-- [ ] 3.12 创建 components/chat/OrderCard.tsx（订单信息卡片，展示订单号、商品、金额、状态）
-- [ ] 3.13 Agent 回复中自动识别并渲染 OrderCard
-- [ ] 3.14 联调测试：完整对话流程（用户提问 → Agent 调 Tool → 返回结果 → 渲染）
+- [x] 3.10 创建 components/chat/ToolCallCard.tsx（展示 Tool 名称、参数、返回结果）
+- [x] 3.11 MessageBubble 区分消息类型：纯文本 / Tool 调用 / 混合
+- [x] 3.12 创建 components/chat/OrderCard.tsx（订单信息卡片）
+- [x] 3.13 Agent 回复中自动识别并渲染 OrderCard
+- [x] 3.14 联调测试：完整对话流程（用户提问 → Agent 调 Tool → 返回结果 → 渲染）
 
 ### 阶段四：RAG 知识库
 

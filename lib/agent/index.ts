@@ -142,7 +142,18 @@ async function callMimo(messages: Array<{ role: string; content: string | unknow
   return data.choices[0].message
 }
 
-export async function runAgent(sessionId: string, userMessage: string) {
+export interface ToolCallInfo {
+  toolName: string
+  args: Record<string, unknown>
+  result: unknown
+}
+
+export interface AgentResult {
+  text: string
+  toolCalls: ToolCallInfo[]
+}
+
+export async function runAgent(sessionId: string, userMessage: string): Promise<AgentResult> {
   const history = await getMemory(sessionId)
   const profile = await getUserProfile('user_001')
   const profileText = `用户有 ${profile.totalOrders} 个订单，最近购买：${profile.recentProducts.join('、')}。${profile.hasRefundHistory ? '有过退款记录。' : ''}${profile.ticketCount > 0 ? `有 ${profile.ticketCount} 个工单。` : ''}`
@@ -154,7 +165,8 @@ export async function runAgent(sessionId: string, userMessage: string) {
     { role: 'user', content: userMessage },
   ]
 
-  // 最多 5 轮 Tool 调用
+  const allToolCalls: ToolCallInfo[] = []
+
   for (let step = 0; step < 5; step++) {
     console.log(`--- Step ${step + 1} ---`)
 
@@ -162,25 +174,22 @@ export async function runAgent(sessionId: string, userMessage: string) {
     console.log('finishReason:', assistantMsg.tool_calls ? 'tool-calls' : 'stop')
     console.log('text:', assistantMsg.content?.substring(0, 200))
 
-    // 没有 Tool 调用，返回结果
     if (!assistantMsg.tool_calls) {
       console.log('模型直接回复，结束')
-      return { text: assistantMsg.content || '' }
+      return { text: assistantMsg.content || '', toolCalls: allToolCalls }
     }
 
-    // 有 Tool 调用
     console.log('Tool 调用数:', assistantMsg.tool_calls.length)
-
-    // 把 assistant 消息加入历史（包含 tool_calls）
     messages.push(assistantMsg)
 
-    // 执行每个 Tool 并把结果加入历史
     for (const tc of assistantMsg.tool_calls) {
       const args = JSON.parse(tc.function.arguments)
       console.log('Tool:', tc.function.name, 'args:', JSON.stringify(args))
 
       const result = await executeTool(tc.function.name, args)
       console.log('结果:', JSON.stringify(result)?.substring(0, 300))
+
+      allToolCalls.push({ toolName: tc.function.name, args, result })
 
       messages.push({
         role: 'tool',
@@ -190,7 +199,6 @@ export async function runAgent(sessionId: string, userMessage: string) {
     }
   }
 
-  // 超过最大轮数
   const finalMsg = await callMimo(messages)
-  return { text: finalMsg.content || '' }
+  return { text: finalMsg.content || '', toolCalls: allToolCalls }
 }

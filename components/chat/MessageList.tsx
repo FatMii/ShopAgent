@@ -2,12 +2,15 @@
 
 import { useEffect, useRef } from 'react'
 import { MessageBubble } from './MessageBubble'
+import { ToolCallCard } from './ToolCallCard'
 import { Bot } from 'lucide-react'
+import type { ToolCallInfo } from './ChatWindow'
 
 export interface Message {
   id: string
   role: 'user' | 'assistant'
   content: string
+  toolCalls?: ToolCallInfo[]
 }
 
 interface MessageListProps {
@@ -22,10 +25,6 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isLoading])
 
-  // 判断最后一条消息是否是正在流式输出的 assistant 消息
-  const lastMessage = messages[messages.length - 1]
-  const isStreaming = isLoading && lastMessage?.role === 'assistant' && lastMessage?.content
-
   if (messages.length === 0) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
@@ -39,10 +38,28 @@ export function MessageList({ messages, isLoading }: MessageListProps) {
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {messages.map((msg) => (
-        <MessageBubble key={msg.id} role={msg.role} content={msg.content} />
+        <div key={msg.id} className="space-y-2">
+          {/* Tool 调用卡片（在 assistant 消息上方） */}
+          {msg.toolCalls && msg.toolCalls.length > 0 && (
+            <div className="flex gap-3">
+              <div className="w-8 flex-shrink-0" />
+              <div className="space-y-2">
+                {msg.toolCalls.map((tc, i) => (
+                  <ToolCallCard
+                    key={i}
+                    toolName={tc.toolName}
+                    args={tc.args}
+                    result={tc.result}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          {/* 消息气泡 */}
+          <MessageBubble role={msg.role} content={msg.content} />
+        </div>
       ))}
-      {/* 只在等待响应还没开始流式输出时显示"思考中" */}
-      {isLoading && !isStreaming && (
+      {isLoading && (
         <div className="flex gap-3">
           <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0">
             <Bot className="w-4 h-4 text-gray-600" />

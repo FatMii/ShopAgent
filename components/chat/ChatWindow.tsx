@@ -11,13 +11,18 @@ interface Session {
   updatedAt: string
 }
 
+export interface ToolCallInfo {
+  toolName: string
+  args: Record<string, unknown>
+  result: unknown
+}
+
 export function ChatWindow() {
   const [sessions, setSessions] = useState<Session[]>([])
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  // 加载会话列表
   const loadSessions = useCallback(async () => {
     const res = await fetch('/api/sessions')
     const data = await res.json()
@@ -28,7 +33,6 @@ export function ChatWindow() {
     loadSessions()
   }, [loadSessions])
 
-  // 加载某个会话的消息
   const loadMessages = useCallback(async (sessionId: string) => {
     const res = await fetch(`/api/sessions/${sessionId}`)
     const data = await res.json()
@@ -40,7 +44,6 @@ export function ChatWindow() {
     setMessages(formatted)
   }, [])
 
-  // 切换会话
   const handleSelectSession = useCallback(
     (sessionId: string) => {
       setActiveSessionId(sessionId)
@@ -49,7 +52,6 @@ export function ChatWindow() {
     [loadMessages]
   )
 
-  // 新建会话
   const handleNewSession = useCallback(async () => {
     const res = await fetch('/api/sessions', { method: 'POST' })
     const session = await res.json()
@@ -58,9 +60,7 @@ export function ChatWindow() {
     setMessages([])
   }, [])
 
-  // 发送消息
   const handleSend = async (content: string) => {
-    // 如果没有活跃会话，先创建
     let sessionId = activeSessionId
     if (!sessionId) {
       const res = await fetch('/api/sessions', { method: 'POST' })
@@ -96,33 +96,18 @@ export function ChatWindow() {
         throw new Error(err.error || '请求失败')
       }
 
-      const reader = res.body?.getReader()
-      const decoder = new TextDecoder()
-      let assistantContent = ''
+      const data = await res.json()
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: '',
-      }
-      setMessages((prev) => [...prev, assistantMessage])
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.text,
+          toolCalls: data.toolCalls || [],
+        },
+      ])
 
-      while (reader) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        const chunk = decoder.decode(value, { stream: true })
-        assistantContent += chunk
-        setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantMessage.id
-              ? { ...m, content: assistantContent }
-              : m
-          )
-        )
-      }
-
-      // 刷新会话列表（更新最后一条消息预览）
       loadSessions()
     } catch (error) {
       console.error('Chat error:', error)
